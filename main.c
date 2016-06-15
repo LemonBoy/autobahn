@@ -108,6 +108,8 @@ int main (int argc, char **argv)
         xdemitconf_t econf = { 0, 0, 0, NULL, NULL, print_hunk };
         xdemitcb_t ecb = { NULL, NULL, };
 
+        param.flags = XDF_COMPACTION_HEURISTIC;
+
         ARGBEGIN {
         case '1':
         case '2':
