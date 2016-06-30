@@ -18,14 +18,16 @@ Just compile the program using the `Makefile` provided and place it in your
 to add something like this to your `.vimrc`
 
 ```vim
-set diffexpr=MyDiff()
-function MyDiff()
-  let opt = "-1 "
-  if &diffopt =~ "iwhite"
-    let opt = opt . "-b "
-  endif
-  silent execute "!autobahn " . opt . v:fname_in . " " . v:fname_new .
-  \  " > " . v:fname_out
+set diffexpr=AutoDiff()
+function! AutoDiff()
+    let opt = '-1'
+
+    if &diffopt =~ "iwhite"
+        let opt .= ' -b '
+    endif
+
+    let cmd = join(['!autobahn', opt, v:fname_in, v:fname_new, '>', v:fname_out])
+    silent exe cmd | redraw!
 endfunction
 ```
 
