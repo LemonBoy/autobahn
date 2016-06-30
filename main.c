@@ -10,6 +10,7 @@
 // http://www.chemie.fu-berlin.de/chemnet/use/info/diff/diff_3.html#SEC13
 
 char *argv0;
+int seen_hunk;
 
 void
 die(const char *errstr, ...)
@@ -62,6 +63,8 @@ int print_hunk (long start_a, long count_a, long start_b, long count_b, void *cb
         else
                 // Change lines
                 print_ed_cmd('c', s1, e1, s2, e2);
+
+        seen_hunk = 1;
 
         return 1;
 }
@@ -142,7 +145,8 @@ int main (int argc, char **argv)
         read_mmfile(&f1, argv[0]);
         read_mmfile(&f2, argv[1]);
 
+        seen_hunk = 0;
         xdl_diff(&f1, &f2, &param, &econf, &ecb);
 
-        return 0;
+        return (seen_hunk ? EXIT_FAILURE : EXIT_SUCCESS);
 }
